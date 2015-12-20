@@ -6,28 +6,26 @@ export default class Show extends Component {
   constructor(props) {
     super(props);
     var self = this;
-    this.state = {show: {}, episodes: []}
-    request.get('http://api.tvmaze.com/shows/' + this.props.params.id)
+    this.state = {show: {}}
+    request.get('http://api.tvmaze.com/shows/' + this.props.params.id + '?embed=episodes')
     .end(function(err, res){
-      if (err) console.error(err);
       self.setState({show: res.body});
-    });
-
-    request.get('http://api.tvmaze.com/shows/' + this.props.params.id + '/episodes')
-    .end(function(err, res){;
-      if (err) console.error(err);
-      self.setState({episodes: res.body})
     });
   }
   render() {
 
     var show = this.state.show;
-    console.log(this.state.episodes);
-    var episodes = this.state.episodes.map(function(episode){
+    console.log(show);
+    if (this.state.show._embedded !== undefined) {
+    var episodes = this.state.show._embedded.episodes.map(function(episode){
       return (
         <li key={episode.id}>{episode.name}: Season {episode.season} episode {episode.number}</li>
       )
     });
+    } else {
+    var episodes = [];
+    }
+
     if (show.image !== undefined) {
       var image = show.image;
     } else {

@@ -4,13 +4,11 @@ import Template from './components/template';
 import Shows from './components/index'
 import Show from './components/show'
 import {Router, Route, IndexRoute} from 'react-router'
+import App from './components/app';
+
+
 
 ReactDOM.render(
-  <Router>
-    <Route path="/" component={Template}>
-      <IndexRoute component={Shows} />
-      <Route path="shows/:id" component={Show} />
-    </Route>
-  </Router>
+  <App />
   , document.getElementById('app')
 );

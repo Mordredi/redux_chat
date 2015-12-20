@@ -1,43 +1,63 @@
-import React, {Component} from 'react';
-import request from 'superagent';
-import {Link} from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux'
+import {search, fetchShowsIfNeeded} from '../actions/actions'
+import Search from './search';
+import SearchResults from './searchResults';
 
 export default class Shows extends Component {
-  constructor(){
-    super();
-    this.state = { shows: []}
-    this.handler = this.handler.bind(this);
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
-  handler(e){
-    var self = this;
-    e.preventDefault();
-    let node = this.refs.search;
-    let search = node.value;
-    request.get(' http://api.tvmaze.com/search/shows')
-    .query({q: search})
-    .end(function(err, res){
-      if (err) console.error(err);
-      self.setState({shows: res.body});
-    })
+  componentDidMount() {
+    const { dispatch, search } = this.props
+    dispatch(fetchShowsIfNeeded(search))
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.search !== this.props.search) {
+      const {dispatch, search} = nextProps
+      dispatch(fetchShowsIfNeeded(search))
+    }
+  }
+  handleClick(query) {
+    this.props.dispatch(search(query))
   }
   render() {
-    console.log(this.state.shows)
-    let shows = this.state.shows.map(function(show){
-      return (
-        <li key={show.show.id}>
-          <img src={show.show.image.medium} alt={show.show.name} />
-          <Link to={'/shows/' + show.show.id}>{show.show.name}</Link>
-        </li>
-      )
-    })
+    const {search, shows, isFetching} = this.props
     return (
       <div>
-        <input ref="search" type="search" />
-        <button onClick={this.handler}>Search</button>
-        <ul>
-          {shows}
-        </ul>
+        <Search
+          onSearch = { this.handleClick
+        } />
+        <SearchResults
+          shows= {shows}
+        />
       </div>
     )
   }
 }
+
+Shows.propTypes = {
+  search: PropTypes.string.isRequired,
+  shows: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+  const {search, showsBySearch} = state
+  const {
+    isFetching,
+    shows: shows
+  } = showsBySearch[search] || {
+    isFetching: true,
+    shows: []
+  }
+  return {
+    search,
+    shows,
+    isFetching
+  }
+}
+
+export default connect(mapStateToProps)(Shows)
