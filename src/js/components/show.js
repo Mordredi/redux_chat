@@ -1,29 +1,30 @@
-import React, {Component} from 'react';
-import request from 'superagent';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux'
+import {fetchShow} from '../actions/actions'
 
 
 export default class Show extends Component {
   constructor(props) {
     super(props);
-    var self = this;
-    this.state = {show: {}}
-    request.get('http://api.tvmaze.com/shows/' + this.props.params.id + '?embed=episodes')
-    .end(function(err, res){
-      self.setState({show: res.body});
-    });
   }
-  render() {
 
-    var show = this.state.show;
-    console.log(show);
-    if (this.state.show._embedded !== undefined) {
-    var episodes = this.state.show._embedded.episodes.map(function(episode){
-      return (
-        <li key={episode.id}>{episode.name}: Season {episode.season} episode {episode.number}</li>
-      )
-    });
+  componentDidMount() {
+    const { dispatch } = this.props
+
+    dispatch(fetchShow(this.props.params.id))
+  }
+
+  render() {
+    const { show, isFetching } = this.props
+
+    if (show._embedded !== undefined) {
+      var episodes = show._embedded.episodes.map(function(episode){
+        return (
+          <li key={episode.id}>{episode.name}: Season {episode.season} episode {episode.number}</li>
+        )
+      });
     } else {
-    var episodes = [];
+      var episodes = [];
     }
 
     if (show.image !== undefined) {
@@ -40,3 +41,27 @@ export default class Show extends Component {
     )
   }
 }
+
+Show.propTypes = {
+  show: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+  const { showById, routing } = state
+  console.log(routing)
+  const {
+    isFetching,
+    show: show
+  } = showById[routing.state] || {
+    isFetching: true,
+    show: {}
+  }
+  return {
+    show,
+    isFetching
+  }
+}
+
+export default connect(mapStateToProps)(Show)

@@ -3,11 +3,13 @@ import {connect} from 'react-redux'
 import {search, fetchShowsIfNeeded} from '../actions/actions'
 import Search from './search';
 import SearchResults from './searchResults';
+import { pushPath } from 'redux-simple-router';
 
 export default class Shows extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.selectShow = this.selectShow.bind(this)
   }
   componentDidMount() {
     const { dispatch, search } = this.props
@@ -22,6 +24,9 @@ export default class Shows extends Component {
   handleClick(query) {
     this.props.dispatch(search(query))
   }
+  selectShow(id) {
+    this.props.dispatch((pushPath(`/shows/${id}`, id)))
+  }
   render() {
     const {search, shows, isFetching} = this.props
     return (
@@ -30,7 +35,7 @@ export default class Shows extends Component {
           onSearch = { this.handleClick
         } />
         <SearchResults
-          shows= {shows}
+          shows= {shows} onSelect = { this.selectShow }
         />
       </div>
     )

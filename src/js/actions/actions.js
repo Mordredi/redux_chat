@@ -58,3 +58,46 @@ export function fetchShowsIfNeeded(query) {
     }
   }
 }
+
+export const SELECTED_SHOW = 'SELECTED_SHOW'
+
+export function selectedShow(id) {
+  return {
+    type: SELECTED_SHOW,
+    id
+  }
+}
+
+export const REQUEST_SHOW = 'REQUEST_SHOW'
+
+export function requestShow(id) {
+  console.log(id)
+  return {
+    type: REQUEST_SHOW,
+    id
+  }
+}
+
+export const RECEIVE_SHOW = 'RECEIVE_SHOW'
+
+export function receiveShow(id, json) {
+  return {
+    type: RECEIVE_SHOW,
+    id,
+    show: json.data
+  }
+}
+
+export function fetchShow(id) {
+  console.log(id)
+  return dispatch => {
+    dispatch(requestShow(id))
+
+    return axios.get(`http://api.tvmaze.com/shows/${id}?embed=episodes`)
+      .then(response => {
+        return response
+      }).then(json => {
+        dispatch(receiveShow(id, json))
+      })
+  }
+}
