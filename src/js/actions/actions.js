@@ -71,7 +71,6 @@ export function selectedShow(id) {
 export const REQUEST_SHOW = 'REQUEST_SHOW'
 
 export function requestShow(id) {
-  console.log(id)
   return {
     type: REQUEST_SHOW,
     id
@@ -89,7 +88,6 @@ export function receiveShow(id, json) {
 }
 
 export function fetchShow(id) {
-  console.log(id)
   return dispatch => {
     dispatch(requestShow(id))
 
@@ -101,3 +99,5 @@ export function fetchShow(id) {
       })
   }
 }
+
+export const LOGIN = 'LOGIN'

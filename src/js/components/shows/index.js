@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {search, fetchShowsIfNeeded} from '../actions/actions'
+import {search, fetchShowsIfNeeded} from '../../actions/actions'
 import Search from './search';
 import SearchResults from './searchResults';
 import { pushPath } from 'redux-simple-router';

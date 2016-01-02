@@ -11,7 +11,7 @@ export default class ShowCard extends Component {
     return (
       <li>
         <img src={this.props.image.medium} alt={this.props.name} />
-        <a  onClick={e => this.handleClick(e)}>{this.props.name}</a>
+        <a onClick={e => this.handleClick(e)}>{this.props.name}</a>
       </li>
     )
   }

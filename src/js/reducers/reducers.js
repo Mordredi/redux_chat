@@ -86,6 +86,12 @@ function showsBySearch(state = {}, action) {
   }
 }
 
+// function user(state={}, action) {
+//   switch (action.type) {
+//     case
+//   }
+// }
+
 const rootReducer = combineReducers({
   showsBySearch,
   search,

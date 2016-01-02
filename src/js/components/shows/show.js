@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {fetchShow} from '../actions/actions'
+import {fetchShow} from '../../actions/actions'
 
 
 export default class Show extends Component {
