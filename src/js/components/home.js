@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import Login from './users/login';
 import Register from './users/register';
 import ToggleForm from './toggleForm';
 import axios from 'axios';
+import {login} from '../actions/actions'
 
 
 export default class Home extends Component {
@@ -21,9 +23,7 @@ export default class Home extends Component {
     })
   }
   login(user) {
-    axios.post('http://localhost:3000/login', user).then(function(res){
-      console.log(res);
-    })
+    this.props.dispatch(login(user))
   }
   register(user) {
     axios.post('http://localhost:3000/register', user).then(function(res){
@@ -41,3 +41,9 @@ export default class Home extends Component {
     )
   }
 }
+
+Home.propTypes = {
+  dispatch: PropTypes.func.isRequired
+}
+
+export default connect()(Home)

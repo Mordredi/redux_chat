@@ -16,4 +16,14 @@ router.post('/register', function(req, res) {
   })
 })
 
+router.post('/user/:id/follow/:showId', function(req, res) {
+  var userId = req.params.id;
+  var showId = req.params.showId;
+  console.log(userId, showId);
+
+  // User.findByIdAndUpdate(
+  //   req.params.id
+  // )
+})
+
 module.exports = router;

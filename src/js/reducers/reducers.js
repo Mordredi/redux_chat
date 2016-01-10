@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {
-  SEARCH, REQUEST_SHOWS, RECEIVE_SHOWS, RECEIVE_SHOW, REQUEST_SHOW, SELECT_SHOW
+  SEARCH, REQUEST_SHOWS, RECEIVE_SHOWS, RECEIVE_SHOW, REQUEST_SHOW, SELECT_SHOW, CHECK_USER, SET_USER
 } from '../actions/actions'
 
 import {routeReducer} from 'redux-simple-router'
@@ -86,16 +86,42 @@ function showsBySearch(state = {}, action) {
   }
 }
 
-// function user(state={}, action) {
-//   switch (action.type) {
-//     case
-//   }
-// }
+function user(state={
+  isFetching: false,
+  user: {}
+}, action) {
+  switch (action.type) {
+    case CHECK_USER:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+    case SET_USER:
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: action.user
+      })
+    default:
+      return state
+  }
+}
+
+function currentUser(state={}, action) {
+  switch (action.type) {
+    case CHECK_USER:
+    case SET_USER:
+      return Object.assign({}, state, {
+        [action.user]: user(state[action.user], action)
+      })
+    default:
+      return state
+  }
+}
 
 const rootReducer = combineReducers({
   showsBySearch,
   search,
   showById,
+  currentUser,
   routing: routeReducer
 })
 

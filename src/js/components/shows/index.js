@@ -10,6 +10,7 @@ export default class Shows extends Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.selectShow = this.selectShow.bind(this)
+    this.followShow = this.followShow.bind(this)
   }
   componentDidMount() {
     const { dispatch, search } = this.props
@@ -27,6 +28,9 @@ export default class Shows extends Component {
   selectShow(id) {
     this.props.dispatch((pushPath(`/shows/${id}`, id)))
   }
+  followShow(id) {
+    console.log(id);
+  }
   render() {
     const {search, shows, isFetching} = this.props
     return (
@@ -35,7 +39,7 @@ export default class Shows extends Component {
           onSearch = { this.handleClick
         } />
         <SearchResults
-          shows= {shows} onSelect = { this.selectShow }
+          shows= {shows} onSelect = { this.selectShow } onFollow = { this.followShow }
         />
       </div>
     )

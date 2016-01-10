@@ -7,7 +7,7 @@ export default class SearchResults extends Component {
       <ul>
         {this.props.shows.map((show) =>
           <ShowCard {...show}
-            key={show.id} onSelect={this.props.onSelect}
+            key={show.id} onSelect={this.props.onSelect} onFollow={this.props.onFollow}
           />
         )}
       </ul>
@@ -21,5 +21,6 @@ SearchResults.propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.object.isRequired
   }).isRequired).isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onFollow: PropTypes.func.isRequired
 }

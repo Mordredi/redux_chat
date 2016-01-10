@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {pushPath} from 'redux-simple-router'
 
 export const SEARCH = 'SEARCH'
 
@@ -100,4 +101,41 @@ export function fetchShow(id) {
   }
 }
 
+export const CHECK_USER = 'CHECK_USER'
+
+export function checkUser(user) {
+  return {
+    type: CHECK_USER,
+    user
+  }
+}
+
+export const SET_USER = 'SET_USER'
+
+export function setUser(json) {
+  return {
+    type: SET_USER,
+    user: json.data
+  }
+}
+
 export const LOGIN = 'LOGIN'
+
+export function login(user) {
+  return dispatch => {
+    dispatch(checkUser(user))
+
+    return axios.post('http://localhost:3000/login', user)
+      .then(response => {
+        return response
+      }).then(json => {
+        dispatch(setUser(json))
+        dispatch(pushPath('/shows', json.data))
+      })
+  }
+}
+
+export const FOLLOW_SHOW_REQUEST = 'FOLLOW_SHOW_REQUEST';
+export const FOLLOW_SHOW_SUCCESS = 'FOLLOW_SHOW_SUCCESS';
+export const FOLLOW_SHOW_FAILURE = 'FOLLOW_SHOW_FAILURE';
+
