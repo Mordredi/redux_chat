@@ -29,17 +29,19 @@ app.use(chatRooms);
 mongoose.connect('mongodb://localhost/react_tv_chat');
 
 io.on('connection', function(socket) {
+  console.log('connected');
   socket.on('join room', function(data){
-    var room = data.id;
+    var room = data;
     socket.join(room)
   });
   socket.on('leave room', function(data){
-    var room = data.id;
+    var room = data;
     socket.leave(room)
   })
   socket.on('send message', function(data){
-    var room = data.id;
-    io.to(room).broadcast('message sent')
+    console.log(data);
+    var room = data;
+    socket.broadcast.to(room).emit('message sent', room)
   })
 })
 

@@ -9,7 +9,6 @@ var bcrypt = require('bcryptjs');
 app.set('superSecret', config.secret);
 
 router.post('/login', function(req, response){
-  console.log(req.body)
   User.findOne({
     username: req.body.username
   }, function(err, user){
@@ -101,7 +100,6 @@ router.post('/watch/:episodeId', function(req, res) {
     {$push: {'episodes': episodeId}},
     {safe: true, new: true},
    function(err, user) {
-    console.log(user);
     res.json(user);
   })
 });

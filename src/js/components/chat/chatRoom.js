@@ -7,6 +7,7 @@ export default class ChatRoom extends Component {
     e.preventDefault();
     this.props.backShow('show');
   }
+
   render() {
     const { chatRoom, onMessage, user, name } = this.props
     return (

@@ -1,9 +1,12 @@
 import axios from 'axios'
-// import io from 'socket.io-client'
+import io from 'socket.io-client';
 
 export const REQUEST_SHOWS = 'REQUEST_SHOWS'
 export const RECEIVE_SHOWS = 'RECEIVE_SHOWS'
 export const SEARCH_ERROR = 'SEARCH_ERROR'
+
+const socket = io('http://localhost:3000');
+
 
 function requestShows(query) {
   return {
@@ -333,6 +336,7 @@ export function enterChatRoom(chatRoom) {
       }).then(json => {
         dispatch(setChat(json.data.chatRoom));
         dispatch(setView('chat'));
+        socket.emit('join room', chatRoom.id)
       })
   }
 }
@@ -381,6 +385,7 @@ function createChatRoom(chatRoom) {
       }).then(json => {
         dispatch(setChat(json.data));
         dispatch(setView('chat'));
+        socket.emit('join room', chatRoom.id)
       })
   }
 }
@@ -414,10 +419,18 @@ export function sendMessage(message, id) {
         console.log(json);
         dispatch(messageSuccess(json.data));
         dispatch(updateChat(json.data));
+        socket.emit('send message', id);
       })
   }
 }
 
-// export function connectToSocket() {
-
-// }
+export function getChat(id) {
+  return dispatch => {
+    return axios.get('http://localhost:3000/chat' + id)
+      .then(response => {
+        return response
+      }).then(json => {
+        dispatch(updateChat(json.data));
+      })
+  }
+}

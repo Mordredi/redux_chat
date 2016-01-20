@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import {logoutUser, search, selectShow, setView, followShow, watchEpisode, enterChatRoom, sendMessage} from '../actions/actions'
+import {logoutUser, search, selectShow, setView, followShow, watchEpisode, enterChatRoom, sendMessage, getChat} from '../actions/actions'
 import Sidebar from './sidebar';
 import Shows from './shows/shows';
 import Show from './shows/show';
 import ChatRoom from './chat/chatRoom';
+import io from 'socket.io-client';
+const socket = io('http://localhost:3000');
 
 export default class Main extends Component {
 
@@ -13,6 +15,12 @@ export default class Main extends Component {
     this.onWatch = this.onWatch.bind(this)
     this.enterChat = this.enterChat.bind(this)
     this.onMessage = this.onMessage.bind(this)
+  }
+
+  componenetDidMount() {
+    socket.on('message sent', function(data){
+      this.props.dispatch(getChat(this.props.chatRoom._id))
+    })
   }
 
   onFollow(id) {

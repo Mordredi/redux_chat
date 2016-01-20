@@ -1,14 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-// import {connectToSocket} from '../actions/actions'
 import Home from './home';
 import Main from './main';
 
 export default class App extends Component {
-  // componentDidMount() {
-  //   const {dispatch} = this.props
-  //   dispatch(connectToSocket());
-  // }
   render() {
     const { dispatch, isAuthenticated, errorMessage, user, shows, show, view, chatRoom } = this.props
     return (
