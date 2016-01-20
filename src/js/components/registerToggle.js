@@ -6,7 +6,7 @@ export default class RegisterToggle extends Component {
   }
   render() {
     return (
-      <li><a onClick={e => this.handleClick(e) }>Register</a></li>
+      <li><a className="btn btn-toggle" onClick={e => this.handleClick(e) }>Register</a></li>
     )
   }
 }

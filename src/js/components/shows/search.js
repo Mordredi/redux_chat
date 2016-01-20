@@ -9,9 +9,9 @@ export default class Search extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="search">
         <input ref="search" type="search" />
-        <button onClick={e => this.handleClick(e)}>Search</button>
+        <button className="btn btn-search" onClick={e => this.handleClick(e)}>Search</button>
       </div>
     )
   }

@@ -6,7 +6,7 @@ export default class LoginToggle extends Component {
   }
   render() {
     return (
-      <li><a onClick={e => this.handleClick(e) }>Login</a></li>
+      <li><a className="btn btn-toggle" onClick={e => this.handleClick(e) }>Login</a></li>
     )
   }
 }

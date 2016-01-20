@@ -8,24 +8,25 @@ var bcrypt = require('bcryptjs');
 
 app.set('superSecret', config.secret);
 
-router.post('/login', function(req, res){
+router.post('/login', function(req, response){
+  console.log(req.body)
   User.findOne({
     username: req.body.username
   }, function(err, user){
     if (err) throw err;
-
+    console.log(user);
     if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found', });
+      response.json({ success: false, message: 'Authentication failed. User not found', });
     } else if (user) {
       bcrypt.compare(req.body.password, user.password, function(err, res) {
         if (res === false) {
-          res.json({ success: false, message: 'Incorrect password'})
+          response.json({ success: false, message: 'Incorrect password'})
         } else {
           var token  = jwt.sign(user, app.get('superSecret'), {
             expiresInMinutes: 1440
           });
-
-          res.json({
+          console.log(res);
+          response.json({
             success: true,
             token: token,
             user: user
@@ -60,44 +61,49 @@ router.post('/register', function(req, res) {
   });
 });
 
-router.use(function(req, res, next){
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+// router.use(function(req, res, next){
+//   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-  if (token) {
-    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
-      if (err) {
-        res.json({success: false, message: 'Authentication failed. Please login'});
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    return res.status(403).send({
-      success: false,
-      message: 'No token provided'
-    });
-  }
-});
+//   if (token) {
+//     jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+//       if (err) {
+//         res.json({success: false, message: 'Authentication failed. Please login'});
+//       } else {
+//         req.decoded = decoded;
+//         next();
+//       }
+//     });
+//   } else {
+//     return res.status(403).send({
+//       success: false,
+//       message: 'No token provided'
+//     });
+//   }
+// });
 
-router.post('/user/:id/follow/:showId', function(req, res) {
-  var userId = req.params.id;
+router.post('/follow/:showId', function(req, res) {
+  var userId = req.body._id;
   var showId = req.params.showId;
   User.findByIdAndUpdate(
-    req.params.id,
+    userId,
     {$push: {'shows': showId}},
-    {safe: true, new: true}
-  )
+    {safe: true, new: true},
+  function(err, user){
+    res.json(user);
+  })
 });
 
-router.post('/user/:id/watch/:episodeId', function(req, res) {
-  var userId = req.params.id;
+router.post('/watch/:episodeId', function(req, res) {
+  var userId = req.body._id;
   var episodeId = req.params.episodeId;
   User.findByIdAndUpdate(
-    req.params.id,
+    userId,
     {$push: {'episodes': episodeId}},
-    {safe: true, new: true}
-  )
+    {safe: true, new: true},
+   function(err, user) {
+    console.log(user);
+    res.json(user);
+  })
 });
 
 module.exports = router;

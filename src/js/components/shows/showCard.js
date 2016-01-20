@@ -1,32 +1,41 @@
 import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
-
 
 export default class ShowCard extends Component {
-  handleClick(e) {
+  handleSelect(e) {
+    const {id, onSelect} = this.props
     e.preventDefault();
-    const id = this.props.id
-    this.props.onSelect(id)
+    onSelect(id)
   }
   handleFollow(e) {
     e.preventDefault();
-    const id = this.props.id
-    this.props.onFollow(id)
+    const {id, onFollow} = this.props
+    onFollow(id)
   }
-  render () {
-    console.log(this.props)
+
+  render() {
+    const {id, name, image, status, summary, userShows} = this.props
+    for (var i = 0; i <= userShows.length; i++) {
+      if (userShows[i] == id) {
+        var follow = <p className="following">Following</p>
+        break
+      } else {
+        var follow = <a className="btn btn-follow" onClick={e => this.handleFollow(e)}>Follow Show</a>
+      }
+    }
     return (
       <li>
-        <div className="show-card">
-          <div className="show-card-front">
-            <img src={this.props.image.medium} alt={this.props.name} />
-          </div>
-          <div class="show-card-back">
-            <a onClick={e => this.handleFollow(e)}>Follow Show</a>
-            <a onClick={e => this.handleClick(e)}>{this.props.name}</a>
-            {this.props.status}
-            <div dangerouslySetInnerHTML={{__html: this.props.summary}}></div>
-
+        <div id="f1_container">
+          <div id="f1_card" className="shadow">
+            <div className="front face">
+              <img src={image.medium} alt={name} />
+            </div>
+            <div className="back face center flex flex-column">
+              <h2>{name}</h2>
+              { status === "Running" ? <p className="status green">{status}</p> : <p className="status red">{status}</p>}
+              <div dangerouslySetInnerHTML={{__html: summary}}></div>
+              <a className="btn btn-show" onClick={e => this.handleSelect(e)}>View Show</a>
+              {follow}
+            </div>
           </div>
         </div>
       </li>
@@ -35,9 +44,12 @@ export default class ShowCard extends Component {
 }
 
 ShowCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onFollow: PropTypes.func.isRequired
+  id: PropTypes.number,
+  name: PropTypes.string,
+  image: PropTypes.object,
+  status: PropTypes.string,
+  summary: PropTypes.string,
+  onSelect: PropTypes.func,
+  onFollow: PropTypes.func,
+  userShows: PropTypes.array
 }

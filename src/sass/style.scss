@@ -1,0 +1,256 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// My Styles
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Merriweather', serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h1,
+h2 {
+  font-family: 'Lato', sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.home {
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    color: red;
+  }
+  form {
+    height: 20rem;
+    align-items: center;
+  }
+}
+
+.btn {
+  min-width: 4rem;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: .5rem;
+  margin-top: .5rem;
+}
+
+.btn-toggle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+label {
+  font-size: 1.3rem;
+  margin: .5rem 0;
+}
+
+.form-toggle {
+  width: 15rem;
+  justify-content: space-around;
+  margin: 1rem 0;
+}
+
+input {
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.main {
+  height: 100vh;
+}
+
+.view {
+  height: 100%;
+  width: 70vw;
+  overflow: auto;
+}
+
+.sidebar {
+  width: 30vw;
+  min-width: 20rem;
+  align-items: center;
+  height: 100%;
+  padding-top: 10rem;
+}
+
+#f1_container {
+  position: relative;
+  width: 210px;
+  height: 295px;
+  z-index: 1;
+}
+#f1_container {
+  perspective: 1000;
+}
+#f1_card {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: all 700ms linear;
+}
+#f1_container:hover #f1_card {
+  transform: rotateY(180deg);
+}
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.face.back {
+  transform: rotateY(180deg);
+  color: #000;
+  background-color: #fff;
+  overflow: auto;
+  padding: .5rem;
+  line-height: 1.2;
+  font-size: 1.2rem;
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+.shows {
+  padding: 3rem;
+  ul {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  li {
+    height: 295px;
+    margin-top: 1rem;
+  }
+}
+
+.btn-show,
+.btn-follow {
+  font-size: 1.5rem;
+}
+
+.following {
+  font-size: 1.6rem;
+  color: red;
+}
+
+.btn-follow {
+  color: red
+}
+
+.btn-show {
+  color: green;
+}
+
+.status {
+  font-size: 1.4rem;
+  &.green {
+    color: green;
+  }
+  &.red {
+    color: red;
+  }
+}
+
+.show {
+  padding: 3rem;
+  align-items: center;
+  img {
+    width: 210px;
+  }
+  ul {
+    align-items: center;
+  }
+}
+
+.episode {
+  margin-top: .5rem;
+}
+
+.btn-chat {
+  color: red;
+}
+.btn-watch {
+  color: green;
+}
+
+.chat-room {
+  align-items: center;
+  padding: 3rem;
+}
+
+.chat-window {
+  width: 30rem;
+  height: 20rem;
+  overflow: auto;
+}
+
+.messages {
+  margin-top: 1rem;
+  align-items: center;
+}

@@ -7,29 +7,25 @@ export default class Login extends Component {
     var username = usernameNode.value.trim();
     var passwordNode = this.refs.password;
     var password = passwordNode.value.trim();
-    var user = {
+    var creds = {
       username: username,
       password: password
     }
-    this.props.onLogin(user);
+    this.props.onLoginClick(creds);
   }
   render() {
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <div>
-          <label>Username: </label>
-          <input type="text" ref="username"/>
-        </div>
-        <div>
-          <label>Password: </label>
-          <input type="password" ref="password"/>
-        </div>
-        <button type="submit">Login</button>
+      <form className="flex flex-column" onSubmit={e => this.handleSubmit(e)}>
+        <label>Username</label>
+        <input type="text" ref="username"/>
+        <label>Password</label>
+        <input type="password" ref="password"/>
+        <button className="btn btn-login" type="submit">Login</button>
       </form>
     )
   }
 }
 
 Login.propTypes = {
-  onLogin: PropTypes.func.isRequired
+  onLoginClick: PropTypes.func.isRequired
 }

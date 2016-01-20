@@ -1,67 +1,31 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux'
-import {fetchShow} from '../../actions/actions'
-
+import Episodes from './episodes';
 
 export default class Show extends Component {
-  constructor(props) {
-    super(props);
+  handleClick(e) {
+    e.preventDefault;
+    this.props.searchResults('shows');
   }
-
-  componentDidMount() {
-    const { dispatch } = this.props
-
-    dispatch(fetchShow(this.props.params.id))
-  }
-
   render() {
-    const { show, isFetching } = this.props
-
-    if (show._embedded !== undefined) {
-      var episodes = show._embedded.episodes.map(function(episode){
-        return (
-          <li key={episode.id}>{episode.name}: Season {episode.season} episode {episode.number}</li>
-        )
-      });
-    } else {
-      var episodes = [];
-    }
-
-    if (show.image !== undefined) {
-      var image = show.image;
-    } else {
-      var image = {};
-    }
+    const { name, image, _embedded } = this.props.show
+    const {user, onWatch, enterChat} = this.props
     return (
-      <div>
-        <h1>{show.name}</h1>
+      <div className="flex flex-column show view">
+        <h1>{name}</h1>
         <img src={image.medium} />
-        <ul>{episodes}</ul>
+        <Episodes onWatch={onWatch} enterChat={enterChat} episodes={_embedded.episodes} userEpisodes={user.episodes} />
+        <a className="btn" onClick={e => this.handleClick(e)}>Return to search results</a>
       </div>
     )
   }
 }
 
 Show.propTypes = {
-  show: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
+  name: PropTypes.string,
+  image: PropTypes.string,
+  _embedded: PropTypes.object,
+  seachResults: PropTypes.func,
+  user: PropTypes.object,
+  onWatch: PropTypes.func,
+  enterChat: PropTypes.func
 }
-
-function mapStateToProps(state) {
-  const { showById, routing } = state
-  console.log(routing)
-  const {
-    isFetching,
-    show: show
-  } = showById[routing.state] || {
-    isFetching: true,
-    show: {}
-  }
-  return {
-    show,
-    isFetching
-  }
-}
-
-export default connect(mapStateToProps)(Show)

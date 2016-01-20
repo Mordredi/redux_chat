@@ -11,38 +11,30 @@ export default class Register extends Component {
     var password = passwordNode.value.trim();
     var passwordConfirmationNode = this.refs.password_confirmation;
     var passwordConfirmation = passwordConfirmationNode.value.trim();
-    var user = {
+    var creds = {
       username: username,
       email: email,
       password: password
     }
-    this.props.onRegister(user);
+    this.props.onRegisterClick(creds);
   }
   render() {
     return (
-      <form onSubmit={e => this.handleSubmit(e)} >
-        <div>
-          <label>Username: </label>
+      <form className="flex flex-column" onSubmit={e => this.handleSubmit(e)} >
+          <label>Username</label>
           <input type="text" ref="username"/>
-        </div>
-        <div>
-          <label>Email: </label>
+          <label>Email</label>
           <input type="email" ref="email"/>
-        </div>
-        <div>
-          <label>Password: </label>
+          <label>Password</label>
           <input type="password" ref="password"/>
-        </div>
-        <div>
-          <label>Password Confirmation: </label>
+          <label>Password Confirmation</label>
           <input type="password" ref="password_confirmation"/>
-        </div>
-        <button type="submit">Register</button>
+        <button className="btn btn-register" type="submit">Register</button>
       </form>
     )
   }
 }
 
 Register.propTypes = {
-  onRegister: PropTypes.func.isRequired
+  onRegisterClick: PropTypes.func.isRequired
 }

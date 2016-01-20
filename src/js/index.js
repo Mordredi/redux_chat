@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Template from './components/template';
-import {Router, Route, IndexRoute} from 'react-router'
-import Configure from './components/provider';
+import {Provider} from 'react-redux';
+import configureStore from './stores/store';
+import {combineReducers} from 'redux';
+import App from './components/app';
 
-
+const store = configureStore();
 
 ReactDOM.render(
-  <Configure />
-  , document.getElementById('app')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
 );

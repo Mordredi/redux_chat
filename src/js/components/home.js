@@ -3,16 +3,13 @@ import {connect} from 'react-redux';
 import Login from './users/login';
 import Register from './users/register';
 import ToggleForm from './toggleForm';
-import axios from 'axios';
-import {login} from '../actions/actions'
+import {loginUser, registerUser} from '../actions/actions'
 
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.toggleForm = this.toggleForm.bind(this)
-    this.login = this.login.bind(this)
-    this.register = this.register.bind(this)
     this.state = {
       form: 'login'
     }
@@ -22,20 +19,18 @@ export default class Home extends Component {
       form: form
     })
   }
-  login(user) {
-    this.props.dispatch(login(user))
-  }
-  register(user) {
-    axios.post('http://localhost:3000/register', user).then(function(res){
-      console.log(res);
-    })
-  }
   render () {
+    const { dispatch, errorMessage } = this.props
     return (
-      <div>
+      <div className="flex flex-column home">
         <h1>Welcome to TV Chat</h1>
         <ToggleForm onToggle = {this.toggleForm}/>
-        { this.state.form === 'login' ? <Login onLogin={this.login}/> : <Register onRegister={this.register} /> }
+        { this.state.form === 'login' ?
+          <Login
+            errorMessage={errorMessage}
+            onLoginClick={creds => dispatch(loginUser(creds))}
+          /> : <Register
+            onRegisterClick={creds => dispatch(registerUser(creds))} /> }
       </div>
 
     )
@@ -43,7 +38,6 @@ export default class Home extends Component {
 }
 
 Home.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string
 }
-
-export default connect()(Home)

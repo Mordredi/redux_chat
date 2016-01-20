@@ -8,7 +8,7 @@ export default class ToggleForm extends Component {
   }
   render() {
     return (
-      <ul>
+      <ul className="flex form-toggle">
         <LoginToggle onToggle={this.props.onToggle} />
         <RegisterToggle onToggle={this.props.onToggle} />
       </ul>
